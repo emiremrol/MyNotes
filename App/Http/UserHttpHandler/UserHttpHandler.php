@@ -42,11 +42,6 @@ class UserHttpHandler extends HttpHandlerAbstract
         $currentUser = $userService->currentUser();
         $this->render("users/profile", $currentUser);
 
-//        if(isset($formData['edit'])){
-//            $this->handleEditProcess($userService, $formData);
-//        }else {
-            //$this->render("users/profile", $currentUser);
-    //    }
     }
 
     private function handleRegisterProcess($userService, $formData): void
@@ -64,11 +59,6 @@ class UserHttpHandler extends HttpHandlerAbstract
             $this->render("users/register", null, new ErrorDTO($e->getMessage()));
         }
 
-//        if($userService->register($user, $formData['confirm_password'])){
-//            $this->redirect("login.php");
-//        }else{
-//            $this->render("users/register", null, new ErrorDTO("Password mismatch!"));
-//        }
     }
 
     private function handleLoginProcess($userService, $formData): void
@@ -85,30 +75,6 @@ class UserHttpHandler extends HttpHandlerAbstract
             $this->render("users/login", $currentUser,
                 new ErrorDTO($ex->getMessage()));
         }
-
-//        if(null !== $user){
-//            $_SESSION['id'] = $user->getId();
-//            $this->redirect("profile.php");
-//        }else{
-//            $this->render("users/login", $currentUser,
-//                new ErrorDTO($error)
-//            );
-//        }
-    }
-
-    private function handleEditProcess($userService, $formData): void
-    {
-        $user = $this->dataBinder->bind($formData, UserDTO::class);
-
-        /**@var UserServiceInterface $userService*/
-        if($userService->edit($user)){
-            $this->redirect("profile.php");
-        }else{
-            $this->render("users/login", null,
-                new ErrorDTO("Username already exists.")
-            );
-        }
-
     }
 
 }
