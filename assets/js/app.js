@@ -13,18 +13,6 @@ viewPasswordBtns.forEach(btn => {
     })
 })
 
-const registerForm = document.forms['register_form'];
-const firstName = registerForm['first_name'];
-const lastName = registerForm['last_name'];
-const username = registerForm['username'];
-const email = registerForm['email'];
-const password = registerForm['password'];
-const confirmPass = registerForm['confirm_password'];
-
-const signUp = registerForm['register'];
-
-// registerForm.addEventListener("change", (e)=>{
-//
-//
-// })
-
+let pagLinks = document.querySelectorAll(".page-item .page-link");
+let pageId = document.body.id;
+pagLinks[pageId].classList.add('active');

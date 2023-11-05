@@ -1,7 +1,5 @@
 <?php /**@var \App\Data\ErrorDTO\ErrorDTO $error*/?>
 
-
-
 <!doctype html>
 <html lang="en">
 <head>

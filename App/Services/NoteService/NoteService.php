@@ -48,14 +48,14 @@ class NoteService implements NoteServiceInterface
         return true;
     }
 
-    public function getAllNote(): \Generator|bool
+    public function getAllNote(int $page = 1, int $perPage = 4): \Generator
     {
         if(!$this->userService->isLogged()){
             return false;
         }
 
         $currentUser = $this->userService->currentUser();
-        return $this->noteRepository->findAllNotes($currentUser->getId());
+        return $this->noteRepository->findAllNotes($currentUser->getId(), $page, $perPage);
     }
 
     public function currentNote(int $id): ?NoteDTO
@@ -66,4 +66,10 @@ class NoteService implements NoteServiceInterface
 
         return $this->noteRepository->findOneById($id);
     }
+
+    public function getRowCount(int $userId): int
+    {
+        return $this->noteRepository->getRowCount($userId);
+    }
+
 }

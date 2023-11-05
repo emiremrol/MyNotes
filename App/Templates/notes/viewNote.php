@@ -33,7 +33,7 @@
         </div>
         <div class="me-4 d-flex align-items-center">
 
-            <a class="btn btn-primary active rounded-pill" href="allNotes.php">All Notes</a>
+            <a class="btn btn-primary active rounded-pill" href="allNotes.php?page=1">All Notes</a>
             <a class="btn text-danger" href="logout.php">Log out</a>
         </div>
     </header>

@@ -60,8 +60,10 @@ class NoteRepository implements NoteRepositoryInterface
         return true;
     }
 
-    public function findAllNotes(int $id): \Generator
+    public function findAllNotes(int $userId, int $page = 1, int $perPage = 5): \Generator
     {
+        $offset = ($page - 1) * $perPage;
+
         return $this->db->query(
             "SELECT
                         note_id AS noteId,
@@ -71,10 +73,15 @@ class NoteRepository implements NoteRepositoryInterface
                     FROM 
                         notes
                     WHERE
-                        user_id = ?"
+                        user_id = ?
+                    LIMIT $perPage 
+                    OFFSET $offset"
         )
-            ->execute([$id])
+            ->execute([
+                $userId
+            ])
             ->fetch(NoteDTO::class);
+
     }
 
     public function findOneById(int $id): ?NoteDTO
@@ -94,5 +101,13 @@ class NoteRepository implements NoteRepositoryInterface
             ->fetch(NoteDTO::class)
             ->current();
 
+    }
+
+    public function getRowCount(int $userId): int
+    {
+        return $this->db->query(
+            "SELECT * FROM notes WHERE user_id = ?")
+            ->execute([$userId])
+            ->rowCount();
     }
 }

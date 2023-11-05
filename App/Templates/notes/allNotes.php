@@ -1,6 +1,14 @@
 <?php
 /**@var \App\Data\Note\NoteDTO[] $data*/
+
+$numberOfRows = $_SESSION['row_counts'];
+$rowsPerPage = 4;
+$pages = ceil($numberOfRows / $rowsPerPage);
+$currentPage = 1;
+isset($_GET['page']) ? $currentPage = $_GET['page'] : null;
 ?>
+
+
 <!doctype html>
 <html lang="en">
 <head>
@@ -17,7 +25,7 @@
     <link rel="stylesheet" href="assets/css/style.css">
     <title>Profile</title>
 </head>
-<body>
+<body id="<?= $currentPage?>">
 <div class="container border-bottom">
     <header class="d-flex justify-content-between">
         <div>
@@ -32,19 +40,57 @@
     </header>
 </div>
 
-<section class="container d-flex">
-
+<section class="container">
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 row-cols-xl-4 g-2 align-items-center">
     <?php foreach ($data as $note):?>
-        <div class="note mx-2">
-            <div class="title border-bottom mb-2"><?= $note->getTitle();?></div>
-            <div class="content">
-                <?= trim($note->getContent());?>
+        <div class="col">
+            <div class="note mx-2">
+                <div class="title border-bottom mb-2"><?= $note->getTitle();?></div>
+                <div class="content">
+                    <?=$note->getContent();?>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <a href="viewNote.php?noteid=<?= $note->getNoteId()?>" class="btn text-primary">View</a>
+                    </div>
+                    <div class="col">
+                        <a href="deleteNote.php?deleteid=<?= $note->getNoteId()?>" class="btn text-primary">Delete</a>
+                    </div>
+                </div>
+
             </div>
-            <a href="viewNote.php?noteid=<?= $note->getNoteId()?>" class="btn text-primary">View</a>
         </div>
     <?php endforeach;?>
+    </div>
+    <div class="row mt-3 justify-content-center">
+        <?php if($pages > 1): ?>
+            <nav aria-label="Page navigation example">
+                <ul class="pagination">
+                    <!--   previous button  -->
+                    <?php if($currentPage >= $pages):?>
+                        <li class="page-item"><a class="page-link" href="?page=<?= $currentPage - 1?>">Previous</a></li>
+                    <?php else:?>
+                        <li class="page-item"><a class="page-link" href="">Previous</a></li>
+                    <?php endif;?>
 
+                    <?php for($i = 1; $i <= $pages; $i++):?>
+                        <li class="page-item"><a class="page-link" href="?page=<?=$i?>"><?=$i?></a></li>
+                    <?php endfor;?>
+
+                    <!--   next buttton  -->
+                    <?php if($currentPage < $pages):?>
+                        <li class="page-item"><a class="page-link" href="?page=<?= $currentPage + 1?>">Next</a></li>
+                    <?php else:?>
+                        <li class="page-item"><a class="page-link" href="">Next</a></li>
+                    <?php endif;?>
+
+                </ul>
+            </nav>
+        <?php endif; ?>
+    </div>
 </section>
+
+<script src="assets/js/app.js"></script>
 </body>
 </html>
 

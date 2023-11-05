@@ -14,5 +14,8 @@ interface NoteRepositoryInterface
     /**
      * @return \Generator| NoteDTO[]
      */
-    public function findAllNotes(int $id): \Generator;
+    public function findAllNotes(int $userId, int $page = 1, int $perPage = 5): \Generator;
+
+    public function getRowCount(int $userId): int;
+
 }

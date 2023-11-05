@@ -25,13 +25,14 @@ class NoteHttpHandler extends HttpHandlerAbstract
         $note = $this->dataBinder->bind($formData, NoteDTO::class);
 
         if($noteService->createNote($note)){
-            $this->redirect("allNotes.php");
+            $this->redirect("allNotes.php?page=1");
         }
     }
 
     public function viewNote(UserServiceInterface $userService, NoteServiceInterface $noteService, array $formData): void
     {
-        $currentNote = $noteService->currentNote($_GET['noteid']);
+
+        $currentNote = $noteService->currentNote($formData['noteid']);
 
         if(!$userService->isLogged()){
             $this->redirect("login.php");
@@ -51,17 +52,48 @@ class NoteHttpHandler extends HttpHandlerAbstract
         $note = $this->dataBinder->bind($formData, NoteDTO::class);
 //        $currentNote = $noteService->currentNote($noteId);
         if($noteService->editNote($noteId, $note)){
-            $this->redirect("allNotes.php");
+            $this->redirect("allNotes.php?page=1");
         }
     }
 
-    public function getAllNotes(NoteServiceInterface $noteService, UserServiceInterface $userService): void
+    public function getAllNotes(NoteServiceInterface $noteService, UserServiceInterface $userService, array $data = []): void
     {
         if(!$userService->isLogged()){
             $this->redirect("login.php");
         }
 
-        $this->render("notes/allNotes", $noteService->getAllNote());
+        $userId = $_SESSION['id'];
+        $_SESSION['row_counts'] = $noteService->getRowCount($userId);
+
+        if(null != $data){
+            $this->render("notes/allNotes", $noteService->getAllNote(intval($data['page'])));
+
+        }else {
+            $this->render("notes/allNotes", $noteService->getAllNote());
+        }
 
     }
+
+    public function deleteNote(UserServiceInterface $userService, NoteServiceInterface $noteService, array $formData):void
+    {
+        if(!$userService->isLogged()){
+            $this->redirect("login.php");
+        } else {
+            $currentNote = $noteService->currentNote($formData['deleteid']);
+            if(isset($formData['deleteid'])){
+                $this->handleDeleteProcess($noteService, $currentNote);
+            }else {
+                $this->render("notes/allNotes");
+            }
+        }
+
+    }
+
+    private function handleDeleteProcess(NoteServiceInterface $noteService, NoteDTO $noteDTO): void
+    {
+        if($noteService->deleteNote($noteDTO->getNoteId())){
+            $this->redirect("allNotes.php?page=1");
+        }
+    }
+
 }

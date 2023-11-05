@@ -17,4 +17,9 @@ class PDOResultSet implements ResultSetInterface
             yield $row;
         }
     }
+
+    public function rowCount(): int
+    {
+        return $this->pdoStmt->rowCount();
+    }
 }

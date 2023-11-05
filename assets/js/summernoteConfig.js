@@ -7,10 +7,12 @@ $(document).ready(function(){
             height:300,
             toolbar: [
                 ['style', ['style']],
+                ['fontsize', ['fontsize']],
                 ['font', ['bold', 'underline', 'clear']],
                 ['color', ['color']],
                 ['para', ['ul', 'ol', 'paragraph']],
                 ['table',['table']],
+                ['height', ['height']],
                 ['insert', []]
             ]
         }
