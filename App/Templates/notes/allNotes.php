@@ -94,5 +94,5 @@ isset($_GET['page']) ? $currentPage = $_GET['page'] : null;
 </body>
 </html>
 
-<!--back to <a href="profile.php">profile</a>-->
+
 
