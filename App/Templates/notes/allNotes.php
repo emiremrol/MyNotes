@@ -2,8 +2,8 @@
 /**@var \App\Data\Note\NoteDTO[] $data*/
 
 $numberOfRows = $_SESSION['row_counts'];
-$rowsPerPage = 4;
-$pages = ceil($numberOfRows / $rowsPerPage);
+$colsPerPage = 4;
+$pages = ceil($numberOfRows / $colsPerPage);
 $currentPage = 1;
 isset($_GET['page']) ? $currentPage = $_GET['page'] : null;
 ?>

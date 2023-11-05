@@ -60,7 +60,7 @@ class NoteRepository implements NoteRepositoryInterface
         return true;
     }
 
-    public function findAllNotes(int $userId, int $page = 1, int $perPage = 5): \Generator
+    public function findAllNotes(int $userId, int $page = 1, int $perPage = 4): \Generator
     {
         $offset = ($page - 1) * $perPage;
 
